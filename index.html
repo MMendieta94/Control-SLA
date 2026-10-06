@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es"><head>
+<html lang="es" data-theme="light"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Control SLA Órdenes</title>
@@ -11,6 +11,22 @@
   --text:#e9edf0; --muted:#98a2ab; --faint:#6d7780;
   --acc:#3fd39a; --acc-bg:#1d3530; --acc-line:#2c5a4d;
   --in:#3fd39a; --out:#f07178; --out-bg:#3a2327; --warn:#e6b450;
+  --strong:#cfd6dc; --on-acc:#0d1a15; --in-bg:#1d3530; --hover:#1f242a; --acc-hover-bg:#1a2a26; --scroll:#3a424c; --scroll-h:#4a535e;
+  --blank:#2a2f36; --cw-bg:#1f4a3a; --cw-fg:#b6f2d5; --co-bg:#5a2a2e; --co-fg:#ffc9cc;
+  --gh:#c9adff; --gh-dot:#b48cff; --gh-bg:#2e2640; --gh-line:#7a5fb5; --em:#7cc8ff; --em-bg:#1d3142; --em-line:#2f5d80;
+  --warn-bg:#3a3122; --warn-line:#6b5a2e; --out-line:#6b3237; --x-hover:#2a4a42; --bar-label:#1b1f24;
+  color-scheme:dark;
+}
+:root[data-theme="light"]{
+  --bg:#f2f5fa; --panel:#ffffff; --panel2:#edf2f9; --line:#dbe3ee; --line2:#c5d2e4;
+  --text:#132339; --muted:#4a5c76; --faint:#6f7f96; --strong:#1b3a68;
+  --acc:#1f5fd0; --acc-bg:#e6eefe; --acc-line:#b4cbf3; --on-acc:#ffffff;
+  --in:#13865a; --in-bg:#e0f4ea; --out:#cf3846; --out-bg:#fde7e9; --warn:#9a6400;
+  --hover:#f2f7fe; --acc-hover-bg:#eaf1ff; --scroll:#c0cde0; --scroll-h:#a7b8d2;
+  --blank:#e2e8f0; --cw-bg:#d5f1e3; --cw-fg:#0c6640; --co-bg:#fbd8dc; --co-fg:#981b29;
+  --gh:#6b3fc6; --gh-dot:#7c52d6; --gh-bg:#efe8ff; --gh-line:#c2abef; --em:#14639f; --em-bg:#e0eefb; --em-line:#a7cbec;
+  --warn-bg:#fff2d6; --warn-line:#e5c483; --out-line:#efb0b7; --x-hover:#d4e2fa; --bar-label:#ffffff;
+  color-scheme:light;
   --sans:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
   --mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;
 }
@@ -20,10 +36,14 @@ html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans
 button{font-family:inherit}
 .mono{font-family:var(--mono)}
 /* header */
-header{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;padding-bottom:26px;border-bottom:2px solid #e9edf0;flex-wrap:wrap}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;padding-bottom:26px;border-bottom:2px solid var(--text);flex-wrap:wrap}
 h1{font-size:32px;margin:0 0 10px;font-weight:700;letter-spacing:-.01em}
 .sub{color:var(--muted);font-size:16px}
 .hstats{display:flex;gap:44px}
+.hright{display:flex;flex-direction:column;align-items:flex-end;gap:14px}
+.langbox{display:flex;gap:6px}
+.langbox .chk{padding:4px 8px}
+.langbox .lb{font-size:13px;font-weight:700;letter-spacing:.08em}
 .hstat{text-align:right}
 .hstat .k{font-size:12px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
 .hstat .v{font-family:var(--mono);font-size:22px;font-weight:600}
@@ -31,7 +51,7 @@ h1{font-size:32px;margin:0 0 10px;font-weight:700;letter-spacing:-.01em}
 /* cards */
 .loadbar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:22px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 16px}
 .lb-slot{display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-width:0;border-radius:8px;padding:4px 6px;border:1.5px dashed transparent;transition:.15s}
-.lb-slot.over{border-color:var(--acc);background:#1a2a26}
+.lb-slot.over{border-color:var(--acc);background:var(--acc-hover-bg)}
 .lb-slot:first-child{flex:0 1 auto}.lb-slot:last-child{flex:1 1 360px}
 .bl-slot{flex-direction:column;align-items:stretch;gap:10px}
 .bl-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
@@ -51,7 +71,7 @@ h1{font-size:32px;margin:0 0 10px;font-weight:700;letter-spacing:-.01em}
 .cfg-btns{display:flex;gap:10px;flex-wrap:wrap}
 .cfg-help{font-size:12px;color:var(--faint);line-height:1.55}
 .cfg-help b{color:var(--muted)}
-.lb-t{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#cfd6dc;font-weight:600;white-space:nowrap}
+.lb-t{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--strong);font-weight:600;white-space:nowrap}
 .lb-t small{font-family:var(--mono);font-size:11px;letter-spacing:0;text-transform:none;color:var(--acc);margin-left:4px}
 .lb-btn{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line2);color:var(--text);border-radius:7px;padding:5px 11px;font-size:12.5px;cursor:pointer;white-space:nowrap}
 .lb-btn:hover{border-color:var(--acc);color:var(--acc)}
@@ -62,15 +82,15 @@ h1{font-size:32px;margin:0 0 10px;font-weight:700;letter-spacing:-.01em}
 .chip{display:inline-flex;align-items:center;gap:6px;background:var(--acc-bg);border:1px solid var(--acc-line);border-radius:999px;padding:3px 4px 3px 11px;font-size:12.5px;max-width:100%}
 .chip .n{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px}
 .chip .m{font-family:var(--mono);color:var(--muted);font-size:11.5px;white-space:nowrap}
-.chip .x{background:none;border:0;color:#cfd6dc;width:20px;height:20px;border-radius:50%;cursor:pointer;display:grid;place-items:center;padding:0}
-.chip .x:hover{background:#2a4a42}
+.chip .x{background:none;border:0;color:var(--strong);width:20px;height:20px;border-radius:50%;cursor:pointer;display:grid;place-items:center;padding:0}
+.chip .x:hover{background:var(--x-hover)}
 .chip.busy{background:var(--panel2);border-color:var(--line2);padding-right:11px}
 .chip .spin{width:10px;height:10px;border:2px solid var(--line2);border-top-color:var(--acc);border-radius:50%;animation:sp .8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .hint{color:var(--faint);font-size:12.5px;white-space:nowrap}
-*{scrollbar-color:#3a424c transparent;scrollbar-width:thin}
+*{scrollbar-color:var(--scroll) transparent;scrollbar-width:thin}
 ::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:#3a424c;border-radius:6px;border:2px solid var(--panel)}::-webkit-scrollbar-thumb:hover{background:#4a535e}
+::-webkit-scrollbar-thumb{background:var(--scroll);border-radius:6px;border:2px solid var(--panel)}::-webkit-scrollbar-thumb:hover{background:var(--scroll-h)}
 ::-webkit-scrollbar-corner{background:transparent}
 /* tabla tipo Excel */
 .xl{max-height:calc(38px + 5 * 40px + 2px);overflow:auto;border:1px solid var(--line2);border-radius:8px;background:var(--bg)}
@@ -84,21 +104,21 @@ h1{font-size:32px;margin:0 0 10px;font-weight:700;letter-spacing:-.01em}
 .shp{color:var(--out);font-weight:700}
 .pareto{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-items:start}
 @media (max-width:1200px){.pareto{grid-template-columns:minmax(0,1fr)}}
-.blank{background:#2a2f36 !important}
-.cw{background:#1f4a3a !important;color:#b6f2d5;font-weight:600}
-.co{background:#5a2a2e !important;color:#ffc9cc;font-weight:600}
+.blank{background:var(--blank) !important}
+.cw{background:var(--cw-bg) !important;color:var(--cw-fg);font-weight:600}
+.co{background:var(--co-bg) !important;color:var(--co-fg);font-weight:600}
 .res{font-family:var(--mono);font-size:11.5px;padding:2px 8px;border-radius:999px;background:var(--panel2);border:1px solid var(--line2)}
-.res.r0{color:#c9adff;border-color:#7a5fb5}.res.r1{color:#7cc8ff;border-color:#2f5d80}.res.r2{color:var(--warn);border-color:#6b5a2e}.res.r3{color:var(--out);border-color:#6b3237}.res.r4{color:var(--acc);border-color:var(--acc-line)}
-.tag.em{color:#7cc8ff;background:#1d3142}
+.res.r0{color:var(--gh);border-color:var(--gh-line)}.res.r1{color:var(--em);border-color:var(--em-line)}.res.r2{color:var(--warn);border-color:var(--warn-line)}.res.r3{color:var(--out);border-color:var(--out-line)}.res.r4{color:var(--acc);border-color:var(--acc-line)}
+.tag.em{color:var(--em);background:var(--em-bg)}
 .cap{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:14px;overflow-x:auto}
 .capin{width:90px;background:var(--bg);border:1px solid var(--line2);color:var(--text);border-radius:6px;padding:4px 6px;font-family:var(--mono);text-align:right}
 .xl-foot{display:flex;justify-content:space-between;margin-top:10px;color:var(--muted);font-size:12.5px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px 24px}
 .card-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:12px}
-.card-h h3{margin:0;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:#cfd6dc;font-weight:600}
+.card-h h3{margin:0;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--strong);font-weight:600}
 .pill{font-family:var(--mono);font-size:12px;color:var(--acc);background:var(--acc-bg);border:1px solid var(--acc-line);border-radius:999px;padding:3px 10px;white-space:nowrap}
 .drop{border:1.5px dashed var(--line2);border-radius:10px;padding:30px 16px;text-align:center;cursor:pointer;transition:.15s;display:block}
-.drop:hover,.drop.over{border-color:var(--acc);background:#1a2a26}
+.drop:hover,.drop.over{border-color:var(--acc);background:var(--acc-hover-bg)}
 .drop svg{width:34px;height:34px;color:var(--muted)}
 .drop b{display:block;font-size:17px;margin:12px 0 8px}
 .drop span{color:var(--muted)}
@@ -108,8 +128,8 @@ h1{font-size:32px;margin:0 0 10px;font-weight:700;letter-spacing:-.01em}
 .file .n{font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .file .m{font-family:var(--mono);color:var(--muted);font-size:13px;white-space:nowrap}
 .file .m b{color:var(--text);font-weight:500}
-.file .x{background:none;border:1px solid transparent;color:#cfd6dc;border-radius:6px;width:30px;height:30px;cursor:pointer;display:grid;place-items:center;flex:none}
-.file .x:hover{border-color:#cfd6dc}
+.file .x{background:none;border:1px solid transparent;color:var(--strong);border-radius:6px;width:30px;height:30px;cursor:pointer;display:grid;place-items:center;flex:none}
+.file .x:hover{border-color:var(--strong)}
 .file.busy{background:var(--panel2)} .file.err{background:var(--out-bg)}
 .bar-prog{height:3px;background:var(--line);border-radius:2px;overflow:hidden;margin-top:6px}
 .bar-prog i{display:block;height:100%;background:var(--acc);width:30%;animation:ind 1.1s infinite ease-in-out}
@@ -127,8 +147,9 @@ aside{position:sticky;top:16px}
 .chk{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:6px;cursor:pointer;user-select:none}
 .chk:hover{background:var(--panel2)}
 .chk input{appearance:none;width:17px;height:17px;border:1.5px solid var(--line2);border-radius:4px;margin:0;display:grid;place-items:center;flex:none;cursor:pointer}
+.chk input[type=radio]{border-radius:50%}
 .chk input:checked{background:var(--acc);border-color:var(--acc)}
-.chk input:checked::after{content:"";width:9px;height:5px;border:2px solid #0e1714;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.chk input:checked::after{content:"";width:9px;height:5px;border:2px solid var(--on-acc);border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
 .chk .lb{flex:1}
 .chk .ct{font-family:var(--mono);font-size:12px;color:var(--faint)}
 .rules{margin-top:14px;background:var(--panel2);border-radius:8px;padding:12px 14px;font-size:12.5px;color:var(--muted);line-height:1.6}
@@ -137,14 +158,16 @@ aside{position:sticky;top:16px}
 .empty b{display:block;color:var(--text);font-size:17px;margin-bottom:6px}
 /* kpis */
 .kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;margin-bottom:24px}
+.kpi.click{cursor:pointer;transition:.15s}.kpi.click:hover,.kpi.click.on{border-color:var(--acc)}
+.kpi .lnk-t{color:var(--acc);font-weight:600}
 .kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
 .kpi .k{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:7px}
 .kpi .v{font-family:var(--mono);font-size:28px;font-weight:600;margin-top:10px}
 .kpi .s{font-size:12.5px;color:var(--faint);margin-top:4px}
 .dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none}
-.dot.in{background:var(--in)} .dot.gh{background:#b48cff}
-.tag.gh{color:#c9adff;background:#2e2640}
-.tag.bl.gh{border-color:#7a5fb5;color:#c9adff} .dot.out{background:var(--out)}
+.dot.in{background:var(--in)} .dot.gh{background:var(--gh-dot)}
+.tag.gh{color:var(--gh);background:var(--gh-bg)}
+.tag.bl.gh{border-color:var(--gh-line);color:var(--gh)} .dot.out{background:var(--out)}
 .sec{margin-bottom:24px}
 .sec .card-h{margin-bottom:12px}
 .sec .card-h .note{color:var(--faint);font-size:12.5px}
@@ -155,7 +178,7 @@ aside{position:sticky;top:16px}
 .tbl td{padding:9px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
 .tbl td.num,.tbl th.num{text-align:right;font-family:var(--mono)}
 .tbl th.num{font-family:var(--sans)}
-.tbl tr:hover td{background:#1f242a}
+.tbl tr:hover td{background:var(--hover)}
 .tbl th.sort{cursor:pointer} .tbl th.sort:hover{color:var(--text)}
 .tbl th .ar{color:var(--acc)}
 .tbl tfoot td{font-weight:600;border-top:1px solid var(--line2);border-bottom:0}
@@ -165,11 +188,11 @@ aside{position:sticky;top:16px}
 .meter .trk i.full{border-radius:4px}
 .meter b{font-family:var(--mono);font-weight:500;width:52px;text-align:right}
 .tag{font-family:var(--mono);font-size:11.5px;padding:2px 8px;border-radius:999px;display:inline-flex;align-items:center;gap:5px}
-.tag.in{color:var(--in);background:var(--acc-bg)}
+.tag.in{color:var(--in);background:var(--in-bg)}
 .tag.out{color:var(--out);background:var(--out-bg)}
-.tag.we{color:var(--warn);background:#3a3122}
-.tag.bl{color:#cfd6dc;background:var(--panel2);border:1px solid var(--line2);margin-right:4px}
-.tag.op{color:var(--warn);background:#3a3122;margin-left:6px}
+.tag.we{color:var(--warn);background:var(--warn-bg)}
+.tag.bl{color:var(--strong);background:var(--panel2);border:1px solid var(--line2);margin-right:4px}
+.tag.op{color:var(--warn);background:var(--warn-bg);margin-left:6px}
 .legend{display:flex;gap:16px;font-size:12.5px;color:var(--muted)}
 .legend span{display:flex;align-items:center;gap:6px}
 /* orders */
@@ -180,7 +203,7 @@ aside{position:sticky;top:16px}
 .tabs button .c{font-family:var(--mono);font-size:12px;margin-left:6px;color:var(--faint)}
 .search{background:var(--panel2);border:1px solid var(--line);border-radius:8px;color:var(--text);padding:8px 12px;font-family:var(--mono);font-size:13px;width:220px}
 .search:focus{outline:none;border-color:var(--acc)}
-.btn{background:var(--acc);color:#0d1a15;border:0;border-radius:8px;padding:9px 16px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-size:13.5px}
+.btn{background:var(--acc);color:var(--on-acc);border:0;border-radius:8px;padding:9px 16px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-size:13.5px}
 .btn:hover{filter:brightness(1.08)} .btn:disabled{opacity:.5;cursor:default}
 .btn svg{width:16px;height:16px}
 .spacer{flex:1}
@@ -197,16 +220,23 @@ aside{position:sticky;top:16px}
 </style>
 </head>
 <body>
+<script>try { if (localStorage.getItem('sla-theme') === 'light') document.documentElement.dataset.theme = 'light'; } catch (e) {}</script>
 <div class="wrap">
   <header>
     <div>
       <h1>Control SLA · Órdenes</h1>
       <div class="sub">Cruce de OrderDetailsReport contra BacklogSummaryReport cargados</div>
     </div>
+    <div class="hright">
+    <div class="langbox notr" id="langBox">
+      <label class="chk"><input type="radio" name="lang" value="en"><span class="lb">ENGLISH</span></label>
+      <label class="chk"><input type="radio" name="lang" value="es"><span class="lb">ESPAÑOL</span></label>
+    </div>
     <div class="hstats">
       <div class="hstat"><div class="k">Órdenes cargadas</div><div class="v" id="hOrders">0</div></div>
       <div class="hstat"><div class="k">Backlogs</div><div class="v" id="hBacklogs">0</div></div>
       <div class="hstat"><div class="k">Estado</div><div class="v wait" id="hState">Esperando archivo</div></div>
+    </div>
     </div>
   </header>
 
@@ -244,6 +274,11 @@ aside{position:sticky;top:16px}
   <div class="main">
     <aside class="card">
       <div id="filters"><div class="fgroup"><div class="fh"><span>Filtros</span></div><div style="color:var(--faint);font-size:13px">Se habilitan al cargar el OrderDetailsReport.</div></div></div>
+      <div class="fgroup" id="themeBox" style="border-top:1px solid var(--line);padding-top:16px">
+        <div class="fh"><span>Template</span></div>
+        <label class="chk"><input type="radio" name="theme" value="dark"><span class="lb">Dark</span></label>
+        <label class="chk"><input type="radio" name="theme" value="light"><span class="lb">Light</span></label>
+      </div>
       <div class="rules">
         <b>Reglas SLA</b><br>
         Standard: IN ≤ 72 h · OUT &gt; 72 h<br>
@@ -996,7 +1031,7 @@ function renderContent() {
   }
   const L = filtered();
   const tot = L.length, out = L.filter(o => o.out).length, inn = tot - out;
-  const rescued = L.filter(o => !o.out && o.procH > o.limit).length;
+  const rescued = L.filter(isWE).length;
   const hasBl = readyBL().length > 0;
   const G = ghostCount();
 
@@ -1013,9 +1048,11 @@ function renderContent() {
     <div class="kpi"><div class="k"><span class="dot in"></span>IN SLA</div><div class="v">${fmt(inn)}</div><div class="s">${f1(pct(inn, tot))}% del total</div></div>
     <div class="kpi"><div class="k"><span class="dot out"></span>OUT SLA</div><div class="v">${fmt(out)}</div><div class="s">${f1(pct(out, tot))}% del total</div></div>
     <div class="kpi"><div class="k">Cumplimiento</div><div class="v">${f1(pct(inn, tot))}%</div><div class="s">Standard 72 h · Rush 24 h</div></div>
-    <div class="kpi"><div class="k">Ajuste fin de semana</div><div class="v">${fmt(rescued)}</div><div class="s">órdenes que quedan IN por no contar sáb/dom</div></div>
+    <div class="kpi click ${S.weOpen ? 'on' : ''}" id="weKpi" role="button" tabindex="0" title="Ver las órdenes"><div class="k">Ajuste fin de semana</div><div class="v">${fmt(rescued)}</div><div class="s">órdenes que quedan IN por no contar sáb/dom · <span class="lnk-t">${S.weOpen ? 'ocultar' : 'ver órdenes'}</span></div></div>
     <div class="kpi"><div class="k"><span class="dot gh"></span>Ghost</div><div class="v">${hasBl ? fmt(G.n) : '—'}</div><div class="s">${hasBl ? `órdenes distintas Ghost en backlogs · ${fmt(G.cross)} en OrderDetails` : 'Carga backlogs para calcularlo'}</div></div>
   </div>
+
+  <div class="card sec" id="weCard" style="display:none"></div>
 
   <div class="card sec">
     <div class="card-h"><h3>Cumplimiento por segmento</h3><div class="legend"><span><i class="dot in"></i>IN SLA</span><span><i class="dot out"></i>OUT SLA</span></div></div>
@@ -1043,12 +1080,52 @@ function renderContent() {
   <div class="card sec" id="paretoCard"></div>
   <div class="card sec" id="resCard"></div>`;
   renderOrders(L);
+  renderWE(L);
 }
 
 const COLS = [
   ['id', 'Order #'], ['wh', 'Warehouse'], ['pri', 'Priority'], ['brand', 'Brand'], ['drop', 'Dropped To Evolve'], ['ship', 'Shipped'],
   ['procH', 'Proc Hours', 1], ['weH', 'Hrs sáb/dom', 1], ['slaH', 'Horas SLA', 1], ['exceso', 'Exceso', 1], ['out', 'Estado'], ['emb', 'Embroidery'], ['ghost', 'Ghost'], ['bl', 'Backlog']
 ];
+const isWE = o => !o.out && o.procH > o.limit; // IN SLA solo porque no cuentan sáb/dom
+function renderWE(L) {
+  const card = $('weCard'); if (!card) return;
+  if (!S.weOpen) { card.style.display = 'none'; return; }
+  L = L || filtered();
+  const list = L.filter(isWE).filter(o => !S.weQ || o.id.includes(S.weQ.trim())).sort((a, b) => b.weH - a.weH || b.procH - a.procH);
+  const total = L.filter(isWE).length;
+  card.style.display = '';
+  card.innerHTML = `
+    <div class="card-h"><h3>Ajuste fin de semana</h3><span class="note">IN SLA gracias a no contar sáb/dom: Proc Hours mayor al límite, Horas SLA dentro del límite</span></div>
+    <div class="toolbar">
+      <span class="tag in">${fmt(total)} órdenes</span>
+      <input class="search" id="weQ" placeholder="Buscar Order #" value="${esc(S.weQ || '')}">
+      <div class="spacer"></div>
+      <button class="lb-btn" id="weClose">Cerrar</button>
+      <button class="btn" id="weExport" ${total ? '' : 'disabled'}><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M8 2v8M5 7l3 3 3-3M3 13h10"/></svg>Exportar ajuste fin de semana (${fmt(total)})</button>
+    </div>
+    <div class="xl" id="xlW"><table class="tbl" style="table-layout:fixed;width:${64 + COLW.reduce((a, b) => a + b, 0)}px">
+      <colgroup><col style="width:64px">${COLW.map(w => `<col style="width:${w}px">`).join('')}</colgroup>
+      <thead><tr><th class="rn">#</th>${COLS.map(([ck, h, num]) => `<th class="${num ? 'num' : ''}">${h}</th>`).join('')}</tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <div class="xl-foot"><span>${fmt(list.length)} filas · ordenadas por horas de sáb/dom descontadas</span><span>Mismas columnas que la tabla Órdenes</span></div>`;
+  mountV('xlW', list, rowHtml, COLS.length + 1);
+}
+function toggleWE() {
+  S.weOpen = !S.weOpen; renderContent();
+  if (S.weOpen) $('weCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+document.addEventListener('click', e => {
+  const t = e.target.closest('#weKpi,#weClose,#weExport'); if (!t) return;
+  if (t.id === 'weExport') exportOut(t, 'we'); else toggleWE();
+});
+document.addEventListener('keydown', e => { if (e.target.id === 'weKpi' && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); toggleWE(); } });
+document.addEventListener('input', e => {
+  if (e.target.id !== 'weQ') return;
+  S.weQ = e.target.value; renderWE();
+  const q = $('weQ'); q.focus(); q.setSelectionRange(q.value.length, q.value.length);
+});
 function renderOrders(L) {
   L = L || filtered();
   const outN = L.filter(o => o.out).length;
@@ -1190,7 +1267,7 @@ function paretoSvg(D) {
     const vital = firstOver < 0 || i <= firstOver;
     const rr = Math.min(4, w / 2, h);
     g += `<path d="M${x},${m.t + ih} V${top + rr} Q${x},${top} ${x + rr},${top} H${x + w - rr} Q${x + w},${top} ${x + w},${top + rr} V${m.t + ih} Z" fill="var(--out)" opacity="${vital ? 1 : 0.4}"><title>${esc(r.k)}: ${fmt(r.n)} órdenes (${f1(r.p)}%) · acumulado ${f1(r.cp)}%</title></path>`;
-    g += h > 26 ? `<text x="${x + w / 2}" y="${top + 24}" text-anchor="middle" fill="#1b1f24" font-weight="600" font-size="11.5" font-family="var(--mono)">${fmt(r.n)}</text>`
+    g += h > 26 ? `<text x="${x + w / 2}" y="${top + 24}" text-anchor="middle" fill="var(--bar-label)" font-weight="600" font-size="11.5" font-family="var(--mono)">${fmt(r.n)}</text>`
                 : `<text x="${x + w / 2}" y="${top - 6}" text-anchor="middle" fill="var(--text)" font-size="11.5" font-family="var(--mono)">${fmt(r.n)}</text>`;
     const lbl = r.k.length > 24 ? r.k.slice(0, 23) + '…' : r.k;
     g += `<text x="${m.l + i * bw + bw / 2}" y="${m.t + ih + 18}" text-anchor="middle" fill="var(--muted)" font-size="11.5">${esc(lbl)}</text>`;
@@ -1236,7 +1313,7 @@ document.addEventListener('click', e => {
 async function exportSheets(btn, base, build) {
   btn.disabled = true; const old = btn.innerHTML; btn.textContent = 'Generando…'; await yieldUI();
   try {
-    const blob = await XL.write(build());
+    const blob = await xlWrite(build());
     const d = new Date(), a = document.createElement('a');
     a.href = URL.createObjectURL(blob); a.download = `${base}_${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}.xlsx`;
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
@@ -1250,7 +1327,7 @@ async function exportTrace(btn) {
   try {
     const cols = [{ h: 'Order #', t: 'n', w: 14 }, ...T.bls.map(b => ({ h: blHead(b), w: 20 }))];
     const rows = T.list.map(o => [Number(o.id) || o.id, ...T.bls.map(b => { const st = traceStatus(o, b); return st === 'SHIPPED' ? { v: st, st: 5 } : st; })]);
-    const blob = await XL.write([{ name: 'Trazabilidad backlog', cols, rows }, summarySheet()]);
+    const blob = await xlWrite([{ name: 'Trazabilidad backlog', cols, rows }, summarySheet()]);
     const d = new Date(), a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = `Trazabilidad_Backlog_${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}.xlsx`;
@@ -1321,10 +1398,10 @@ function resumenRows() {
     else if (Em) K = 'EMBROIDERY';
     else if (C === null && D === null) K = 'NO SYSTEM ASSIGNMENT';
     else if (J === 'Over the capacity') K = 'OVER THE CAPACITY';
-    else if (J === 'Within the capacity' && E > 72) K = 'OPS OPORTUNITY';
+    else if (J === 'Within the capacity' && E > o.limit) K = 'OPS OPORTUNITY';
     else K = 'SIN DATO DE CAPACIDAD';
     return { o, B: o.drop, C, D, E, F, G, stillGhost, Em, H, I, J, K };
-  }).filter(r => !(r.E < 72)); // se excluyen las órdenes con Proc Hours (mínimo) menor a 72
+  }).filter(r => !(r.E < r.o.limit)); // Standard: se excluyen Proc Hours < 72 · Rush: < 24
 }
 function resumenSheet(list) {
     const G = 8, rows = list.map(r => [
@@ -1349,7 +1426,7 @@ function renderResumen() {
   const dS = v => v === null ? '' : fDate(v, false).split('-').reverse().join('/');
   const W = [120, 105, 105, 105, 95, 70, 115, 120, 115, 150, 170, 200];
   card.innerHTML = `
-    <div class="card-h"><h3>Resumen SLA por orden</h3><span class="note">${fmt(all.length)} órdenes OUT SLA con Proc Hours ≥ 72 · filtros actuales</span></div>
+    <div class="card-h"><h3>Resumen SLA por orden</h3><span class="note">${fmt(all.length)} órdenes OUT SLA · Proc Hours ≥ 72 h (Standard) / ≥ 24 h (Rush) · filtros actuales</span></div>
     <div class="toolbar">
       <div class="tabs" style="flex-wrap:wrap">${tabs.map(([k, l, n]) => `<button data-rtab="${k}" class="${S.rTab === k ? 'on' : ''}">${esc(l)}<span class="c">${fmt(n)}</span></button>`).join('')}</div>
       <div class="spacer"></div>
@@ -1392,8 +1469,10 @@ document.addEventListener('change', e => {
 });
 
 /* ---------- Exportar ---------- */
-async function exportOut(btn) {
-  const L = filtered().filter(o => o.out).sort((a, b) => b.exceso - a.exceso);
+async function exportOut(btn, mode) {
+  const WE = mode === 'we';
+  const L = WE ? filtered().filter(isWE).sort((a, b) => b.weH - a.weH || b.procH - a.procH) : filtered().filter(o => o.out).sort((a, b) => b.exceso - a.exceso);
+  const TAG = WE ? 'ajuste fin de semana' : 'OUT SLA';
   if (!L.length) return;
   btn.disabled = true; const old = btn.innerHTML; btn.textContent = 'Generando…'; await yieldUI();
   try {
@@ -1409,7 +1488,7 @@ async function exportOut(btn) {
     ];
     const ordRows = L.map(o => {
       const ag = o.bl.map(b => b.aging).filter(a => a !== null);
-      return [Number(o.id) || o.id, o.wh, o.pri, o.brand, o.brandsTxt, o.drop, DAYS[o.dow], o.ship, r2(o.procH), r2(o.weH), r2(o.slaH), o.limit, r2(o.exceso), 'OUT SLA',
+      return [Number(o.id) || o.id, o.wh, o.pri, o.brand, o.brandsTxt, o.drop, DAYS[o.dow], o.ship, r2(o.procH), r2(o.weH), r2(o.slaH), o.limit, r2(o.exceso), o.out ? 'OUT SLA' : 'IN SLA',
         o.units, o.lines, o.pkgCount, o.carrier, o.cls, o.otype, o.openCalc ? 'Sin Shipped: medida a la hora más reciente del reporte' : '',
         o.emb, o.ghost === 'Ghost' ? 'Ghost' : 'No', o.ghostDates, o.bl.map(b => b.label).join(', '), ag.length ? r2(Math.max(...ag)) : null];
     });
@@ -1424,26 +1503,213 @@ async function exportOut(btn) {
     const res = [
       ['OrderDetailsReport', S.od.name], ['Backlogs cargados', bls.map(b => b.name).join(', ') || '—'],
       ['Filtro Warehouse', desc('wh')], ['Filtro Priority', desc('pri')], ['Filtro Brand', desc('brand')], ['Filtro Ghost', desc('ghost')],
-      ['Órdenes evaluadas', filtered().length], ['Órdenes OUT SLA', L.length], ['Líneas SKU OUT SLA', lineRows.length],
+      ['Órdenes evaluadas', filtered().length], [WE ? 'Órdenes ajuste fin de semana' : 'Órdenes OUT SLA', L.length], [WE ? 'Líneas SKU' : 'Líneas SKU OUT SLA', lineRows.length],
+      ...(WE ? [['Criterio', 'IN SLA solo por no contar sáb/dom: Proc Hours > límite y Horas SLA ≤ límite']] : []),
       ['Regla', 'Standard OUT > 72 h · Rush OUT > 24 h · horas de sábado y domingo no cuentan'],
       ['Generado', new Date().toLocaleString('es-MX')]
     ];
-    const blob = await XL.write([
-      { name: 'OUT SLA', cols: ordCols, rows: ordRows },
+    const blob = await xlWrite([
+      { name: WE ? 'Ajuste fin de semana' : 'OUT SLA', cols: ordCols, rows: ordRows },
       { name: 'Detalle SKU', cols: lineCols, rows: lineRows },
       { name: 'Resumen', cols: [{ h: 'Concepto', w: 26 }, { h: 'Valor', w: 90, t: 'n' }], rows: res }
     ]);
     const d = new Date();
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `OUT_SLA_${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}.xlsx`;
+    a.download = `${WE ? 'Ajuste_Fin_Semana' : 'OUT_SLA'}_${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}.xlsx`;
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-    toast(`Exportadas ${fmt(L.length)} órdenes OUT SLA (${fmt(lineRows.length)} líneas).`, true);
+    toast(`Exportadas ${fmt(L.length)} órdenes ${TAG} (${fmt(lineRows.length)} líneas).`, true);
   } catch (e) { console.error(e); toast('No se pudo exportar: ' + e.message); }
   btn.disabled = false; btn.innerHTML = old;
 }
 
+/* ---------- Idioma: ENGLISH / ESPAÑOL ---------- */
+const I18N = (() => {
+  const EX = {
+    'Control SLA · Órdenes': 'SLA Control · Orders',
+    'Cruce de OrderDetailsReport contra BacklogSummaryReport cargados': 'OrderDetailsReport cross-checked against loaded BacklogSummaryReports',
+    'Órdenes cargadas': 'Orders loaded', 'Backlogs': 'Backlogs', 'Estado': 'Status',
+    'Esperando archivo': 'Waiting for file', 'Procesando…': 'Processing…', 'Análisis listo': 'Analysis ready',
+    'Cargar': 'Upload', 'Carpeta': 'Folder', 'multi-carga': 'multi-upload', 'Actualizar': 'Refresh', 'Actualizando…': 'Refreshing…',
+    'Ver archivos': 'View files', 'Ocultar archivos': 'Hide files', 'Quitar todos': 'Remove all', 'Quitar': 'Remove',
+    'Arrastra aquí o carga · inicia con "OrderDetailsReport"': 'Drag here or upload · must start with "OrderDetailsReport"',
+    'Arrastra aquí, elige una carpeta o actualiza desde Google Drive · archivos "BacklogSummary…"': 'Drag here, pick a folder or refresh from Google Drive · "BacklogSummary…" files',
+    'Configurar Google Drive': 'Configure Google Drive', 'Liga de la carpeta': 'Folder link', 'API key de Google': 'Google API key',
+    'Guardar y actualizar': 'Save and refresh', 'Descargar HTML para compartir': 'Download HTML to share',
+    'La API key se crea una sola vez en': 'The API key is created only once at',
+    ': crea un proyecto →': ': create a project →', 'APIs y servicios › Biblioteca': 'APIs & Services › Library', '→ habilita': '→ enable',
+    'Credenciales › Crear credenciales › Clave de API': 'Credentials › Create credentials › API key', '. En': '. In',
+    'Restricciones de API': 'API restrictions',
+    'elige solo "Google Drive API". La carpeta debe estar compartida como "Cualquier persona con el enlace".': 'choose only "Google Drive API". The folder must be shared as "Anyone with the link".',
+    'Revisando Google Drive…': 'Checking Google Drive…', 'Sin archivos nuevos': 'No new files',
+    'Configura la API key de Google Drive para la actualización automática.': 'Set the Google Drive API key to enable automatic refresh.',
+    'Filtros': 'Filters', 'Todos': 'All', 'Ninguno': 'None', 'Template': 'Template', 'Dark': 'Dark', 'Light': 'Light',
+    'Se habilitan al cargar el OrderDetailsReport.': 'Available after loading the OrderDetailsReport.',
+    'Reglas SLA': 'SLA rules', 'Horas de sábado y domingo': 'Saturday and Sunday hours', 'no cuentan': 'do not count',
+    ': el conteo se congela y continúa el lunes.': ': the count pauses and resumes on Monday.',
+    'Carga un OrderDetailsReport para comenzar': 'Upload an OrderDetailsReport to start',
+    'Los backlogs son opcionales y se cruzan por Order # ↔ Order ID.': 'Backlogs are optional and are matched by Order # ↔ Order ID.',
+    'Procesando OrderDetailsReport…': 'Processing OrderDetailsReport…', 'Archivos grandes pueden tardar algunos segundos.': 'Large files can take a few seconds.',
+    'Órdenes evaluadas': 'Orders evaluated', 'Cumplimiento': 'Compliance', 'Ajuste fin de semana': 'Weekend adjustment',
+    'órdenes que quedan IN por no contar sáb/dom ·': 'orders that stay IN because Sat/Sun do not count ·',
+    'ver órdenes': 'view orders', 'ocultar': 'hide', 'Ver las órdenes': 'View the orders',
+    'Carga backlogs para calcularlo': 'Load backlogs to calculate it',
+    'Cumplimiento por segmento': 'Compliance by segment', 'Límite': 'Limit', 'Órdenes': 'Orders', '% cumplimiento': '% compliance', 'Total': 'Total',
+    'Validación backlog': 'Backlog validation', 'En backlog': 'In backlog', 'Cruzan': 'Matched', 'Cruzan OUT': 'Matched OUT', 'Cruzan IN': 'Matched IN',
+    'Órdenes OUT vistas en algún backlog': 'OUT orders seen in any backlog',
+    'Sin backlogs cargados. Al cargarlos verás en qué corte aparecía cada orden y su aging WMS.': 'No backlogs loaded. Once loaded you will see in which snapshot each order appeared and its WMS aging.',
+    'Una fila por Order # y Warehouse': 'One row per Order # and Warehouse', 'Todas': 'All', 'Buscar Order #': 'Search Order #',
+    'Desplázate dentro de la tabla para ver el resto': 'Scroll inside the table to see the rest', 'Sin órdenes para mostrar.': 'No orders to show.',
+    'Hrs sáb/dom': 'Sat/Sun hrs', 'Horas SLA': 'SLA hours', 'Exceso': 'Excess', 'Backlog': 'Backlog', 'abierta': 'open',
+    'Sin Shipped: horas medidas a la hora más reciente del reporte': 'No Shipped date: hours measured to the latest time in the report',
+    'IN SLA gracias a no contar sáb/dom: Proc Hours mayor al límite, Horas SLA dentro del límite': 'IN SLA thanks to not counting Sat/Sun: Proc Hours above the limit, SLA hours within the limit',
+    'Cerrar': 'Close', 'Mismas columnas que la tabla Órdenes': 'Same columns as the Orders table',
+    'Pareto de causas OUT SLA': 'OUT SLA cause Pareto', 'Órdenes (% del total OUT)': 'Orders (% of total OUT)', '% acumulado': 'cumulative %', '% acum.': 'cum. %',
+    'Exportar Pareto': 'Export Pareto', 'Sin órdenes OUT SLA con los filtros actuales.': 'No OUT SLA orders with the current filters.',
+    'Resumen SLA por orden': 'SLA summary by order', 'Capacidad': 'Capacity', 'Capacidad diaria en unidades': 'Daily capacity in units',
+    'Día de ingreso': 'Drop day', 'Capacidad del día': 'Daily capacity', 'Capacidad 2.5 días (60 h)': '2.5-day capacity (60 h)',
+    'Capacidad 2.5 días = día de ingreso + día siguiente + ½ del tercer día': '2.5-day capacity = drop day + next day + ½ of the third day',
+    'Restablecer valores': 'Reset values', 'sigue Ghost': 'still Ghost',
+    'Batched / Process / Ghost Up To = fecha del archivo de backlog': 'Batched / Process / Ghost Up To = backlog file date',
+    'Lunes': 'Monday', 'Martes': 'Tuesday', 'Miércoles': 'Wednesday', 'Jueves': 'Thursday', 'Viernes': 'Friday', 'Sábado': 'Saturday', 'Domingo': 'Sunday',
+    'Archivo más reciente': 'Most recent file', 'Actualizar desde la carpeta compartida de Google Drive': 'Refresh from the shared Google Drive folder',
+    'Elige una carpeta de tu equipo con los BacklogSummary…': 'Pick a folder on your computer with the BacklogSummary… files',
+    'Descarga una copia de este HTML con la carpeta y la API key ya incluidas, para compartirla': 'Downloads a copy of this HTML with the folder and API key included, ready to share',
+    'Nombre debe iniciar con "BacklogSummary"': 'Name must start with "BacklogSummary"', 'Nombre debe iniciar con "OrderDetailsReport"': 'Name must start with "OrderDetailsReport"',
+    'Carpeta compartida de Google Drive': 'Shared Google Drive folder', 'Selecciona un archivo .xlsx': 'Select an .xlsx file',
+    'Archivo exportado.': 'File exported.', 'Generando…': 'Generating…', 'La liga de la carpeta no es válida.': 'The folder link is not valid.',
+    'Se necesita permiso para leer la carpeta.': 'Permission is needed to read the folder.',
+    'HTML descargado con la configuración de Google Drive incluida.': 'HTML downloaded with the Google Drive configuration included.',
+    'La API key no es válida.': 'The API key is not valid.',
+    'La API de Google Drive no está habilitada en el proyecto de la API key.': 'The Google Drive API is not enabled in the API key project.',
+    'No se pudo conectar con Google Drive (revisa tu internet).': 'Could not connect to Google Drive (check your internet).',
+    'No se encontró la carpeta (revisa la liga y que esté compartida como "Cualquier persona con el enlace").': 'Folder not found (check the link and that it is shared as "Anyone with the link").',
+    'SIN DATO DE CAPACIDAD': 'NO CAPACITY DATA',
+    'Rush: IN ≤ 24 h · OUT > 24 h': 'Rush: IN ≤ 24 h · OUT > 24 h', 'Standard: IN ≤ 72 h · OUT > 72 h': 'Standard: IN ≤ 72 h · OUT > 72 h',
+    // Excel
+    'Brands en orden': 'Brands in order', 'Día ingreso': 'Drop day', 'Horas sáb/dom descontadas': 'Sat/Sun hours excluded', 'Límite SLA (h)': 'SLA limit (h)',
+    'Exceso (h)': 'Excess (h)', 'Unidades': 'Units', 'Líneas': 'Lines', 'Paquetes': 'Packages', 'Nota': 'Note', 'Fechas como Ghost': 'Ghost dates',
+    'Backlogs donde aparece': 'Backlogs where it appears', 'Máx aging WMS backlog (h)': 'Max WMS backlog aging (h)', 'Horas SLA (orden)': 'SLA hours (order)',
+    'Detalle SKU': 'SKU detail', 'Resumen': 'Summary', 'Concepto': 'Item', 'Valor': 'Value', 'Backlogs cargados': 'Backlogs loaded',
+    'Filtro Warehouse': 'Warehouse filter', 'Filtro Priority': 'Priority filter', 'Filtro Brand': 'Brand filter', 'Filtro Ghost': 'Ghost filter',
+    'Órdenes OUT SLA': 'OUT SLA orders', 'Líneas SKU OUT SLA': 'OUT SLA SKU lines', 'Líneas SKU': 'SKU lines', 'Órdenes ajuste fin de semana': 'Weekend adjustment orders',
+    'Criterio': 'Criteria', 'Regla': 'Rule', 'Generado': 'Generated', '(ninguno)': '(none)',
+    'IN SLA solo por no contar sáb/dom: Proc Hours > límite y Horas SLA ≤ límite': 'IN SLA only because Sat/Sun do not count: Proc Hours > limit and SLA hours ≤ limit',
+    'Standard OUT > 72 h · Rush OUT > 24 h · horas de sábado y domingo no cuentan': 'Standard OUT > 72 h · Rush OUT > 24 h · Saturday and Sunday hours do not count',
+    'Sin Shipped: medida a la hora más reciente del reporte': 'No Shipped date: measured to the latest time in the report',
+    'Resumen SLA por orden ': 'SLA summary by order', 'Pareto': 'Pareto', '% acumulado ': 'Cumulative %', '%': '%'
+  };
+  const RX = [
+    [/^(.*) filas · ordenadas por horas de sáb\/dom descontadas$/, '$1 rows · sorted by Sat/Sun hours excluded'],
+    [/^(.*) filas · Sin backlog del día de ingreso: (.*)$/, '$1 rows · No backlog for drop date: $2'],
+    [/^(.*) filas$/, '$1 rows'],
+    [/^de (.*) en el reporte$/, 'of $1 in the report'],
+    [/^(.*)% del total$/, '$1% of total'],
+    [/^de (.*)$/, 'of $1'],
+    [/^(.*) cruces$/, '$1 matches'], [/^(.*) órd$/, '$1 ord'], [/^(.*) lín$/, '$1 lines'], [/^(.*) órdenes$/, '$1 orders'],
+    [/^(\d+) archivos? · del (.*) al (.*)$/, (m, n, a, b) => `${n} file${n > 1 ? 's' : ''} · from ${a} to ${b}`],
+    [/^(\d+) archivos?$/, (m, n) => `${n} file${n > 1 ? 's' : ''}`],
+    [/^Exportar OUT SLA \((.*)\)$/, 'Export OUT SLA ($1)'], [/^Exportar ajuste fin de semana \((.*)\)$/, 'Export weekend adjustment ($1)'],
+    [/^Exportar resumen \((.*)\)$/, 'Export summary ($1)'],
+    [/^(.*) órdenes OUT SLA · Proc Hours ≥ 72 h \(Standard\) \/ ≥ 24 h \(Rush\) · filtros actuales$/, '$1 OUT SLA orders · Proc Hours ≥ 72 h (Standard) / ≥ 24 h (Rush) · current filters'],
+    [/^Result del Resumen SLA por orden · (.*) órdenes OUT SLA$/, 'Result from the SLA summary by order · $1 OUT SLA orders'],
+    [/^órdenes distintas Ghost en backlogs · (.*) en OrderDetails$/, 'distinct Ghost orders in backlogs · $1 in OrderDetails'],
+    [/^(.*): (.*) órdenes \((.*)\) · acumulado (.*)$/, (m, k, n, p, c) => `${EX[k] || k}: ${n} orders (${p}) · cumulative ${c}`],
+    [/^Acumulado (.*)$/, 'Cumulative $1'],
+    [/^(.*) – (.*)$/, (m, a, b) => `${EX[a] || a} – ${EX[b] || b}`],
+    [/^(\d+) backlogs? sin cruces con las órdenes evaluadas no se muestran?$/, (m, n) => `${n} backlog${n > 1 ? 's' : ''} with no matches to the evaluated orders ${n > 1 ? 'are' : 'is'} hidden`],
+    [/^Actualización automática 6:00 am, 7:00 am y 5:00 pm · próxima (hoy|mañana) (.*)$/, (m, d, h) => `Automatic refresh 6:00 am, 7:00 am and 5:00 pm · next ${d === 'hoy' ? 'today' : 'tomorrow'} ${h.replace('a.m.', 'AM').replace('p.m.', 'PM')}`],
+    [/^(\d+) archivos? nuevos? descargados? · revisado (.*)$/, (m, n, h) => `${n} new file${n > 1 ? 's' : ''} downloaded · checked ${h}`],
+    [/^Sin archivos nuevos · revisado (.*)$/, 'No new files · checked $1'],
+    [/^Descargando (\d+) archivo\(s\) de Google Drive…$/, 'Downloading $1 file(s) from Google Drive…'],
+    [/^Leyendo (\d+) de (\d+)(.*)$/, 'Reading $1 of $2$3'],
+    [/^en cola$/, 'queued'], [/^leyendo…$/, 'reading…'],
+    [/^Google Drive: (.*)$/, (m, x) => 'Google Drive: ' + (EX[x] || x)],
+    [/^Aging WMS: (.*)$/, 'WMS aging: $1'], [/^Ghost en: (.*)$/, 'Ghost on: $1'],
+    [/^(.*) · (\d[\d,]*) líneas$/, '$1 · $2 lines'], [/^(.*) · (\d[\d,]*) órdenes en backlog$/, '$1 · $2 orders in backlog'],
+    [/^Carpeta recordada: (.*)$/, 'Remembered folder: $1'],
+    [/^(.*): (\d[\d,]*) órdenes \((\d[\d,]*) líneas\) procesadas\.$/, '$1: $2 orders ($3 lines) processed.'],
+    [/^Exportadas (.*) órdenes (OUT SLA|ajuste fin de semana) \((.*) líneas\)\.$/, (m, a, t, b) => `Exported ${a} ${t === 'OUT SLA' ? 'OUT SLA' : 'weekend adjustment'} orders (${b} lines).`],
+    [/^Carpeta "(.*)": (\d+) backlogs \((\d+) nuevos o modificados\)(.*)\.$/, 'Folder "$1": $2 backlogs ($3 new or modified)$4.'],
+    [/^Error al leer (.*): (.*)$/, 'Error reading $1: $2'], [/^No se pudo exportar: (.*)$/, 'Could not export: $1'],
+    [/^(.*) ya está cargado\.$/, '$1 is already loaded.'],
+    [/^"(.*)" no es válido: el nombre debe iniciar con "OrderDetailsReport"\.$/, '"$1" is not valid: the name must start with "OrderDetailsReport".'],
+    [/^Omitidos \(el nombre debe iniciar con "BacklogSummary" y ser \.xlsx\): (.*)$/, 'Skipped (name must start with "BacklogSummary" and be .xlsx): $1'],
+    [/^Todos$/, 'All']
+  ];
+  function tr(s) {
+    if (typeof s !== 'string' || !s.trim()) return s;
+    const lead = s.match(/^\s*/)[0], trail = s.match(/\s*$/)[0], core = s.trim();
+    if (EX[core] !== undefined) return lead + EX[core] + trail;
+    for (const [re, to] of RX) if (re.test(core)) return lead + core.replace(re, to) + trail;
+    return s;
+  }
+  let lang = 'es';
+  try { if (localStorage.getItem('sla-lang') === 'en') lang = 'en'; } catch (e) {}
+  const ATTRS = ['placeholder', 'title'];
+  function trNode(n) {
+    if (n.nodeType === 3) {
+      const p = n.parentElement; if (!p || p.closest('script,style,.notr')) return;
+      const v = n.nodeValue; if (n.__en === v) return;
+      n.__es = v; const t = tr(v); n.__en = t; if (t !== v) n.nodeValue = t;
+    } else if (n.nodeType === 1) {
+      if (n.closest('script,style,.notr')) return;
+      for (const a of ATTRS) if (n.hasAttribute(a)) {
+        const v = n.getAttribute(a), k = '__en_' + a; if (n[k] === v) continue;
+        n['__es_' + a] = v; const t = tr(v); n[k] = t; if (t !== v) n.setAttribute(a, t);
+      }
+      const w = document.createTreeWalker(n, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT);
+      let c; while ((c = w.nextNode())) { if (c.nodeType === 3) trNode(c); else for (const a of ATTRS) if (c.hasAttribute(a)) trNode1Attr(c, a); }
+    }
+  }
+  function trNode1Attr(el, a) {
+    if (el.closest('.notr')) return;
+    const v = el.getAttribute(a), k = '__en_' + a; if (el[k] === v) return;
+    el['__es_' + a] = v; const t = tr(v); el[k] = t; if (t !== v) el.setAttribute(a, t);
+  }
+  function restore(root) {
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT);
+    let c; while ((c = w.nextNode())) {
+      if (c.nodeType === 3) { if (c.__es != null && c.nodeValue === c.__en) c.nodeValue = c.__es; c.__en = c.__es = undefined; }
+      else for (const a of ATTRS) if (c['__es_' + a] != null) { if (c.getAttribute(a) === c['__en_' + a]) c.setAttribute(a, c['__es_' + a]); c['__es_' + a] = c['__en_' + a] = undefined; }
+    }
+  }
+  const mo = new MutationObserver(ms => {
+    if (lang !== 'en') return;
+    for (const m of ms) {
+      if (m.type === 'characterData') trNode(m.target);
+      else if (m.type === 'attributes') trNode1Attr(m.target, m.attributeName);
+      else m.addedNodes.forEach(trNode);
+    }
+  });
+  function set(l) {
+    lang = l === 'en' ? 'en' : 'es';
+    try { localStorage.setItem('sla-lang', lang); } catch (e) {}
+    document.documentElement.lang = lang;
+    document.title = lang === 'en' ? 'SLA Control · Orders' : 'Control SLA Órdenes';
+    if (lang === 'en') trNode(document.body); else restore(document.body);
+    document.querySelectorAll('#langBox input').forEach(i => i.checked = i.value === lang);
+  }
+  function start() {
+    mo.observe(document.body, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ATTRS });
+    set(lang);
+  }
+  return { tr, set, start, get lang() { return lang; } };
+})();
+
+const xlWrite = sheets => XL.write(I18N.lang !== 'en' ? sheets : sheets.map(sh => ({ ...sh, name: I18N.tr(sh.name).slice(0, 31),
+  cols: sh.cols.map(c => ({ ...c, h: I18N.tr(c.h) })),
+  rows: sh.rows.map(r => r.map(v => typeof v === 'string' ? I18N.tr(v) : (v && typeof v === 'object' && typeof v.v === 'string') ? { ...v, v: I18N.tr(v.v) } : v)) })));
+$('langBox').addEventListener('change', e => { if (e.target.name === 'lang') { I18N.set(e.target.value); renderAll(); } });
+function setTheme(t) {
+  if (t === 'light') document.documentElement.dataset.theme = 'light'; else delete document.documentElement.dataset.theme;
+  try { localStorage.setItem('sla-theme', t); } catch (e) {}
+  document.querySelectorAll('#themeBox input').forEach(i => i.checked = i.value === t);
+}
+$('themeBox').addEventListener('change', e => { if (e.target.name === 'theme') setTheme(e.target.value); });
+setTheme(document.documentElement.dataset.theme === 'light' ? 'light' : 'dark');
+I18N.start();
 function renderAll() { renderHeader(); renderFiles(); renderFilters(); renderContent(); }
 renderAll();
 if (driveReady()) syncDrive(false);
