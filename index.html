@@ -852,7 +852,7 @@ function handleFolderFiles(files, folderName) {
 const AUTO_H = [6, 7, 17]; // 6:00 am, 7:00 am, 5:00 pm
 function driveConf() {
   let o = {}; try { o = JSON.parse(localStorage.getItem('sla-drive') || '{}') || {}; } catch (e) {}
-  return { folder: o.folder || DRIVE_CFG.folder || '', apiKey: o.apiKey || DRIVE_CFG.apiKey || '' };
+  return { folder: o.folder || DRIVE_CFG.folder || '', apiKey: o.apiKey || DRIVE_CFG.apiKey || 'AIzaSyDAHgxLp0ZzLk_qaYULS2tTW57fpdhKriM' };
 }
 const folderIdOf = x => { x = String(x || '').trim(); const m = x.match(/folders\/([\w-]{10,})/) || x.match(/[?&]id=([\w-]{10,})/); return m ? m[1] : (/^[\w-]{10,}$/.test(x) ? x : ''); };
 const driveReady = () => { const c = driveConf(); return !!(c.apiKey && folderIdOf(c.folder)); };
